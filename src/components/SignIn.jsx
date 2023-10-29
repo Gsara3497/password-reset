@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import AxiosService from '../common/ApiService'
 import UseLogout from './Hooks/UseLogout'
 
-function Login() {
+function SignIn() {
     let navigate = useNavigate()
     let logout = UseLogout()
     let [email, setEmail] = useState("")
@@ -88,4 +88,4 @@ function Login() {
   </>
 }
 
-export default Login
+export default SignIn
