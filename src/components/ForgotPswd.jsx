@@ -4,9 +4,9 @@ import AxiosService from '../common/ApiService';
 import {toast} from 'react-toastify'
 import useLogout from './Hooks/UseLogout';
 
-function ForgotPassword() {
+function ForgotPswd() {
 
-  const {token} = useParams();
+    const {token} = useParams();
   const [password, setPassword] = useState('')
   const logout = useLogout()
   const navigate = useNavigate()
@@ -26,7 +26,8 @@ function ForgotPassword() {
       }  
   }
   return <>
-    <div className="container-fluid">
+
+<div className="container-fluid">
     <div className="row g-0 justify-content-center align-items-center">
     <div className="col-md-8 col-lg-6">
       <div className="login d-flex align-items-center p-5">
@@ -53,7 +54,8 @@ function ForgotPassword() {
     </div>
   </div>
 </div>
+
   </>
 }
 
-export default ForgotPassword
+export default ForgotPswd
