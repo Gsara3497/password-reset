@@ -63,9 +63,9 @@ function SignIn() {
       })
       if(res.status === 200)
       {
-        toast.success(res.data.message)
+        toast.success("Login Successfully")
         sessionStorage.setItem('token', res.data.token)
-        sessionStorage.setItem('userData',JSON.stringify(res.data.userData))
+        // sessionStorage.setItem('userData',JSON.stringify(res.data.userData))
 
         if(res.data.userData){
           navigate('/dashboard')
