@@ -12,38 +12,74 @@ function SignIn() {
     let [email, setEmail] = useState("")
     let [password,setPassword] = useState("")
 
-   const handleLogin = async(e)=>{
+  //  const handleLogin = async(e)=>{
+  //   e.preventDefault()
+  //    try {
+  //       let res = await AxiosService.post(`/user/login`,
+  //       {
+  //           email,
+  //           password
+  //       })
+  //       console.log(res)
+  //       if(res.status === 200){
+
+  //           toast.success("Login Successfull")
+  //           sessionStorage.setItem('token',res.data.token)
+  //           sessionStorage.setItem('userData',JSON.stringify(res.data.userData))
+            
+  //           if(res.data.userData){
+  //             navigate('/dashboard')
+  //           }
+  //           else{
+  //             console.log("Incorrect Email or Password")
+  //           }
+
+  //       }
+  //       else{
+  //         toast.error("Login Failed")
+  //         logout();
+  //       }
+
+  //    } catch (error) {
+  //   //   if(error.response){
+  //       toast.error("Error Occured")
+  //   //   if(error.response.status===401)
+  //   //   {
+  //   //     logout()
+  //   //   }
+  //   //  }
+  //   //  else{
+  //   //     toast.error("An Error occurred While logging in")
+  //   //  }
+  //    }
+
+  //  }
+  let handleLogin = async(e)=>{
     e.preventDefault()
-     try {
-        let res = await AxiosService.post('/user/login',{
-            email,
-            password
-        })
-        console.log(res)
-        if(res.status === 200 && res.data){
-
-            toast.success("Login Successfull")
-            sessionStorage.setItem('token',res.data.token)
-            navigate('/dashboard')
-        }
-        else{
-          toast.error("Login Failed")
-        }
-
-     } catch (error) {
-      if(error.response){
-        toast.error(error.response.data.message)
-      if(error.response.status===401)
+    try {
+      let res = await AxiosService.post(`/user/login`,{
+        email,
+        password
+      })
+      if(res.status === 200)
       {
-        logout()
-      }
-     }
-     else{
-        toast.error("An Error occurred While logging in")
-     }
-    }
+        toast.success(res.data.message)
+        sessionStorage.setItem('token', res.data.token)
+        sessionStorage.setItem('userData',JSON.stringify(res.data.userData))
 
-   }
+        if(res.data.userData){
+          navigate('/dashboard')
+        }
+        
+        else{
+          console.log("Incorrect Email or Password")
+        }
+      }
+    } catch (error) {
+      console.error(error);
+        toast.error("An error occurred while logging in");
+    }
+  }
 
   return <>
   <div className="container-fluid">
@@ -68,7 +104,7 @@ function SignIn() {
         <Form.Control type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)} />
       </Form.Group>
       <div className='col-md-9 text-center'>
-      <Button variant="primary" onClick= {handleLogin}>
+      <Button variant="primary" onClick= {(e)=>handleLogin(e)}>
         Sign In
       </Button>
       <br/>

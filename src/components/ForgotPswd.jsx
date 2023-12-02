@@ -6,20 +6,21 @@ import useLogout from './Hooks/UseLogout';
 
 function ForgotPswd() {
 
-    const {token} = useParams();
+  const { token } = useParams();
   const [password, setPassword] = useState('')
   const logout = useLogout()
   const navigate = useNavigate()
-  const handleResetPassword = async(token)=>{
+
+  const handleResetPassword = async()=>{
       try {
-        const response = await AxiosService.post(`/user/reset-password/:${token}` ,{password})
+        const response = await AxiosService.post(`/user/reset-password/${token}` ,{password})
         if(response.data.message === 200){
           toast.success("Password Reset Successfully")
           navigate('/login')
         }
       } catch (error) {
         toast.error(error.response.data.message)
-        if(error.response.status===401)
+        if(error.response.status === 401)
         {
           logout();
         }

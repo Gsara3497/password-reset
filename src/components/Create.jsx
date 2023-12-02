@@ -11,7 +11,7 @@ function Create() {
 
   const handleSignUp = async()=>{
     try {
-      const response = await AxiosService.post('/user', {email,password})
+      const response = await AxiosService.post('/user/signup', {email,password})
 
       if(response.status === 201){
         toast.success("User Created Successfully")
