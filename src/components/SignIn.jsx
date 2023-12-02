@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import AxiosService from '../common/ApiService'
 import UseLogout from './Hooks/UseLogout'
@@ -12,48 +12,6 @@ function SignIn() {
     let [email, setEmail] = useState("")
     let [password,setPassword] = useState("")
 
-  //  const handleLogin = async(e)=>{
-  //   e.preventDefault()
-  //    try {
-  //       let res = await AxiosService.post(`/user/login`,
-  //       {
-  //           email,
-  //           password
-  //       })
-  //       console.log(res)
-  //       if(res.status === 200){
-
-  //           toast.success("Login Successfull")
-  //           sessionStorage.setItem('token',res.data.token)
-  //           sessionStorage.setItem('userData',JSON.stringify(res.data.userData))
-            
-  //           if(res.data.userData){
-  //             navigate('/dashboard')
-  //           }
-  //           else{
-  //             console.log("Incorrect Email or Password")
-  //           }
-
-  //       }
-  //       else{
-  //         toast.error("Login Failed")
-  //         logout();
-  //       }
-
-  //    } catch (error) {
-  //   //   if(error.response){
-  //       toast.error("Error Occured")
-  //   //   if(error.response.status===401)
-  //   //   {
-  //   //     logout()
-  //   //   }
-  //   //  }
-  //   //  else{
-  //   //     toast.error("An Error occurred While logging in")
-  //   //  }
-  //    }
-
-  //  }
   let handleLogin = async(e)=>{
     e.preventDefault()
     try {
@@ -110,11 +68,15 @@ function SignIn() {
       <br/>
       <br/>
 
-      <Button variant="primary" onClick= {()=>navigate('/forgotpassword')}>
+      <Button variant="primary" onClick= {()=>navigate('/resetmail')}>
         Forgot Password
       </Button>
+      <br />
+      <br />
+      Don't have an account yet? <Link to={'/signup'}>Signup</Link>
+
       </div>
-    </Form>
+              </Form>
             </div>
         </div>
       </div>

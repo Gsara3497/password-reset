@@ -1,24 +1,49 @@
-import React,{ useState } from 'react'
+import React,{ useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import AxiosService from '../common/ApiService';
 import {toast} from 'react-toastify'
 import useLogout from './Hooks/UseLogout';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import { FormGroup } from 'react-bootstrap';
 
 function ForgotPswd() {
 
   const { token } = useParams();
   const [password, setPassword] = useState('')
+  const [enteredToken, setEnteredToken] = useState('');
   const logout = useLogout()
   const navigate = useNavigate()
 
-  const handleResetPassword = async()=>{
+  // useEffect(() => {
+  //   const handleScroll = (event) => {
+  //     // Your scroll handling code
+  //   };
+
+  //   window.addEventListener('scroll', handleScroll, { passive: false });
+
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, []);
+
+    const handleResetPassword = async(e)=>{
+      e.preventDefault();
+    // Check if the entered token matches the token from the Url
+    if(enteredToken !== token){
+      toast.error("Invalid token, Please try again.");
+      return;
+    }
+      // console.log("Token:",token);
+      // console.log("EnteredToken:",enteredToken);
       try {
-        const response = await AxiosService.post(`/user/reset-password/${token}` ,{password})
-        if(response.data.message === 200){
+        const response = await AxiosService.post(`/user/getreset-password/${token}` ,{password})
+        if(response.status === 200){
           toast.success("Password Reset Successfully")
           navigate('/login')
         }
       } catch (error) {
+        console.error(error);
         toast.error(error.response.data.message)
         if(error.response.status === 401)
         {
@@ -26,6 +51,8 @@ function ForgotPswd() {
         }
       }  
   }
+  console.log('Token:', token);
+  console.log("EnteredToken:", enteredToken)
   return <>
 
 <div className="container-fluid">
@@ -35,20 +62,31 @@ function ForgotPswd() {
         <div className="container">
           <div className="row">
             <div className="col-md-9 text-center">
-              <h3 className="login-heading mb-4">Let's Your Password</h3>
-              <form>
-                <div className="form-floating mb-3">
-                  <input type="password" className="form-control" id="floatingPassword" placeholder="Reset Your Password"  onChange={(e)=>setPassword(e.target.value)}/>
-                  <label htmlFor="floatingPassword">Password</label>
-                </div>
+              <h3 className="login-heading mb-4">Lets Reset Your Password</h3>
+            </div>  
 
-                <div className="d-grid">
-                  <button className="btn btn-lg btn-primary btn-login text-uppercase fw-bold mb-2" onClick={handleResetPassword}>Reset Password</button>
-                </div>
+            <Form>
+              <FormGroup>
+                <Form.Label>Token</Form.Label>
+                <Form.Control type="text" placeholder="Enter the token get from your email" onChange={(e)=>setEnteredToken(e.target.value)} />
+              </FormGroup>
 
+              <Form.Group className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" placeholder="Enter new password" onChange={(e)=>setPassword(e.target.value)} />
+              </Form.Group>
 
-              </form>
-            </div>
+              <div className='col-md-9 text-center'>
+                <Button variant="primary" onClick= {(e)=>handleResetPassword(e)}>
+                  Reset Password
+                </Button>
+                <br />
+                <br />
+                <Button variant="primary" onClick= {()=>navigate('/login')}>
+                  Back
+                </Button>
+              </div>
+            </Form>        
           </div>
         </div>
       </div>

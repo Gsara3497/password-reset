@@ -5,6 +5,7 @@ import SignIn from './components/SignIn'
 import Dashboard from './components/Dashboard'
 import Create from './components/Create'
 import ForgotPswd from './components/ForgotPswd'
+import ResetLogin from './components/ResetLogin'
 
 function App() {
   return <>
@@ -14,7 +15,8 @@ function App() {
       <Route path='/' element={<Home />}/>
       <Route path='/signup' element={<Create />}/>
       <Route path='/login' element={<SignIn />}/>
-      <Route path='/forgotpassword' element={<ForgotPswd />}/>
+      <Route path='/resetmail' element={<ResetLogin />}/>
+      <Route path='/forgotpassword/:token' element={<ForgotPswd />}/>
       <Route path='/dashboard' element={<Dashboard />}/>
     </Routes>
   </BrowserRouter>

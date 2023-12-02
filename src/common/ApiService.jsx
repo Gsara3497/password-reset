@@ -7,7 +7,7 @@ const AxiosService = axios.create({
     }
     
 })
-console.log('Api Url:',import.meta.env.VITE_API_URL);
+// console.log('Api Url:',import.meta.env.VITE_API_URL);
 
 AxiosService.interceptors.request.use(config=>{
     const token = sessionStorage.getItem('token')

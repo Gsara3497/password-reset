@@ -19,7 +19,7 @@ function Dashboard(){
                     </h1>
                         <Button
                           variant="primary"
-                          onClick={() => navigate("/login")}
+                          onClick={() => navigate("/")}
                         >
                           LogOut
                         </Button>
