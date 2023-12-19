@@ -22,7 +22,9 @@ function ForgotPswd() {
     }
   
       try {
-        const response = await AxiosService.post(`/user/getreset-password/${id}/${token}`,{password: password})
+        const response = await AxiosService.post(`/user/getreset-password/${id}/${token}`,
+        {password: password});
+
         if(response.status === 200){
           toast.success("Password Reset Successfully")
           navigate('/login')
