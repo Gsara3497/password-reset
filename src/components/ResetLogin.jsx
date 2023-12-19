@@ -17,7 +17,7 @@ function ResetLogin() {
             {email});
             if(res.status === 200){
                 toast.success(res.data.message);
-                navigate('/forgotpassword/:token')
+                navigate('/forgotpassword/:id/:token')
             }
         } catch (error) {
             toast.error("Error occured")
