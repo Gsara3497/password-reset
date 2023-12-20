@@ -60,7 +60,7 @@ function Create() {
 
                 <div className='col-md-9 text-center'>
                 <Button variant="primary" onClick= {(e)=>handleSignUp(e)}>
-                  Sign In
+                  Sign Up
                 </Button>
                 <br />
                 <br />
