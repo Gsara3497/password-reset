@@ -8,22 +8,18 @@ import Form from 'react-bootstrap/Form';
 
 function ForgotPswd() {
 
-  const { id,token } = useParams();
-  const [password, setPassword] = useState('')
-  const logout = useLogout()
-  const navigate = useNavigate()
+  const [password, setPassword] = useState("");
+  const [otp,setOTP] = useState("");
+
+  const logout = useLogout();
+  const navigate = useNavigate();
 
     const handleResetPassword = async(e)=>{
       e.preventDefault();
-    // Check if the entered token matches the token from the Url
-    if(!token){
-      toast.error("Invalid token, Please try again.");
-      return;
-    }
-  
       try {
-        const response = await AxiosService.post(`/user/getreset-password/${id}/${token}`,
-        {password: password});
+        const response = await AxiosService.post(`/user/getreset-password/${otp}/${password}`,
+        { OTP : otp,
+          password: password});
 
         if(response.status === 200){
           toast.success("Password Reset Successfully")
@@ -52,6 +48,10 @@ function ForgotPswd() {
             </div>  
 
             <Form>
+              <Form.Group className="mb-3">
+                <Form.Label>Enter the OTP</Form.Label>
+                <Form.Control type="number" placeholder="Enter OTP" onChange={(e)=>setOTP(e.target.value)} />
+              </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Enter new password" onChange={(e)=>setPassword(e.target.value)} />
