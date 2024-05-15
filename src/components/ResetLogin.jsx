@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AxiosService from '../common/ApiService'
 import UseLogout from './Hooks/UseLogout'
 import { useNavigate } from 'react-router-dom'
@@ -8,13 +8,39 @@ import Form from 'react-bootstrap/Form';
 
 function ResetLogin() {
     const [email, setEmail] = useState("");
+    const [emailRes, setEmailRes] = useState('');
+    const [submit, setSubmit] = useState(false);
     const navigate = useNavigate();
     const logout = UseLogout();
 
-    const handleResetPassword = async()=> {
+    let emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+
+  useEffect(()=>{
+    clearError();
+  },[email]);
+  const clearError = () => {
+    setEmailRes('');
+  }
+    const handleResetPassword = async(e)=> {
+      e.preventDefault();
+
+    clearError();
+    // Email Verification
+    if(email.trim() === ''){
+      setEmailRes("Please fill the email field");
+      return;
+    }
+    else if(!emailPattern.test(email)){
+      setEmailRes(
+        "Email should be in correct format"
+      )
+      return;
+    }
+    setSubmit(true);
         try {
             const res = await AxiosService.post(`/user/reset-password`, 
             {email});
+            setEmail("")
             if(res.status === 200){
                 toast.success(res.data.message);
                 navigate('/forgotpassword/:id/:token')
@@ -23,6 +49,7 @@ function ResetLogin() {
             toast.error("Error occured")
             logout();
         }
+        setSubmit(false);
     }
   return <>
        <div className="container-fluid">
@@ -37,11 +64,12 @@ function ResetLogin() {
               <Form>
                 <Form.Group className="mb-3">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" onChange={(e)=>setEmail(e.target.value)} />
+                  <Form.Control type="email" placeholder="Enter email" onChange={(e)=>setEmail(e.target.value)} required/>
                 </Form.Group>
+                {emailRes && <p className="text-danger">{emailRes}</p>}
 
                 <div className='col-md-9 text-center'>
-                <Button variant="primary" onClick= {(e)=>handleResetPassword(e)}>
+                <Button variant="primary" onClick= {(e)=>handleResetPassword(e)} disabled={submit} >
                   Send Mail
                 </Button>
                 <br />
